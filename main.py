@@ -6,13 +6,14 @@ from tkinter import *
 from tkinter import font
 from tkinter import simpledialog
 from functools import partial
-import smtplib #todo: email sender when complete login
+import smtplib #TODO: email sender when complete login
 
+#TODO: setup multiple user interface 
 
 
 #database code
 
-with sqlite3.connect('database.db') as db:
+with sqlite3.connect('passwords.db') as db:
     c = db.cursor()
 
     c.execute('CREATE TABLE IF NOT EXISTS passwords (id INTEGER PRIMARY KEY, site_name TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL)')
@@ -27,10 +28,10 @@ def delete_popup():
     abc = simpledialog.askstring("DELETE?", text)
 
     
-#app
+#intialize app
 
 window = Tk()
-window.title("password application")
+window.title("Password App")
 
 # def hash_passwords():
 #     hash = hashlib.md5(input)
@@ -38,21 +39,22 @@ window.title("password application")
 
 def loginScreen():
     
-    window.geometry("1350x1200")
-    lbl = Label(window, text=" password", font=("Arial, Bold", 20))
+    window.geometry("1000x500")
+    lbl = Label(window, text=" Password:", font=("Arial, Bold", 20))
     lbl.config(anchor=CENTER)
     lbl.pack(pady = 15)
 
-    txt = Entry(window, width=20, show="*")
+    txt = Entry(window, width=20, show="*") #hash password with *
     txt.pack(pady=10)
     txt.focus()
 
-    lbl1 = Label(window, text='check password', font=("Arial, Bold", 20))
+    lbl1 = Label(window, text='Check Password:', font=("Arial, Bold", 20))
     lbl1.pack()
 
     txt1 = Entry(window, width=20, show="*")
     txt1.pack(pady=10)
     
+    #todo: system to set up and edit password from login screen
     def checkPassword():
         password = "test"
 
@@ -70,8 +72,8 @@ def loginScreen():
 
 def secondPassword():
     for widegt in window.winfo_children():
-        widegt.destroy()
-    window.geometry("1350x1200")
+        widegt.destroy() #clearing window to setup next password window
+    window.geometry("1000x500")
 
     lbl = Label(window, text="Enter Second Password", font=("Arial Bold", 20))
     lbl.config(anchor=CENTER)
@@ -88,7 +90,7 @@ def secondPassword():
         password = "test"
 
         if password == txt.get():
-            birthdayScreen()
+            mainScreen()
             print("Correct")
         else:
             lbl1.config(text="Incorrect Password")
@@ -97,35 +99,6 @@ def secondPassword():
     btn = Button(window, text='Continue', font=("Arial, Bold", 20), command=checkPassword)
     btn.pack(pady=15)
 
-
-def birthdayScreen():
-    for widegt in window.winfo_children():
-        widegt.destroy()
-    window.geometry("1350x1200")
-
-    lbl = Label(window, text="When's my birthday? (DD/MM/YYYY)", font=("Arial Bold", 20))
-    lbl.config(anchor=CENTER)
-    lbl.pack(pady = 15)
-
-    txt = Entry(window, width=20, show="*")
-    txt.pack()
-    txt.focus()
-
-    lbl1 = Label(window)
-    lbl1.pack()
-
-    def check_password():
-        password = "17/06/2004"
-
-        if password == txt.get():
-            mainScreen()
-            print("Correct")
-        else:
-            lbl1.config(text="Incorrect Password")
-            quit()
-
-    btn = Button(window, text='Continue', font=("Arial, Bold", 20), command=check_password)
-    btn.pack(pady=15)
 
 
 def mainScreen():
@@ -141,7 +114,7 @@ def mainScreen():
         username = pop_up(text2)
         password = pop_up(text3)
 
-        insert_fields = '''INSERT INTO passwords(site_name, username, password) VALUES(?,?,?)'''
+        insert_fields = '''INSERT INTO passwords(site_name, username, password) VALUES(?,?,?)''' #adding input into database
 
         c.execute(insert_fields, (website, username, password))
         db.commit()
@@ -155,9 +128,9 @@ def mainScreen():
         mainScreen()
 
 
-    window.geometry("1350x1200")
+    window.geometry("1000x500")
 
-    lbl = Label(window, text=f"Here Are Your Passwords", font=("Arial Bold ", 20 ), padx= 20, pady=10)
+    lbl = Label(window, text=f"Here Are Your Passwords 🔑", font=("Arial Bold ", 20 ), padx= 20, pady=10)
     lbl.grid(column = 1 )
     # lbl.pack(pady = 15)
 
