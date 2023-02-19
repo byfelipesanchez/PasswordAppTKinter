@@ -1,2 +1,2 @@
-# PasswordAppKivy
-Password desktop application with python module Kivy
+# PasswordAppTKinter
+Password desktop application with python module tkinter
